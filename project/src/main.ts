@@ -377,9 +377,16 @@ function bindFilters(): void {
     render();
   });
 
-  app.querySelector<HTMLInputElement>('#search')?.addEventListener('input', (event) => {
-    searchQuery = (event.target as HTMLInputElement).value;
-    render();
+  app.querySelector<HTMLInputElement>('#search')?.addEventListener('input', async (event) => {
+    const input = event.target as HTMLInputElement;
+    const cursorPosition = input.selectionStart ?? input.value.length;
+
+    searchQuery = input.value;
+    await render();
+
+    const nextInput = app.querySelector<HTMLInputElement>('#search');
+    nextInput?.focus();
+    nextInput?.setSelectionRange(cursorPosition, cursorPosition);
   });
 }
 
