@@ -2,9 +2,9 @@ import { getTodosKey, readJson, writeJson } from './storage';
 import type { FilterPriority, FilterStatus, Priority, Todo, TodoDraft } from './types';
 
 const priorityLabels: Record<Priority, string> = {
-  1: 'Niski',
-  2: 'Średni',
-  3: 'Wysoki',
+  'low': 'Niski',
+  'medium': 'Średni',
+  'high': 'Wysoki',
 };
 
 export async function loadInitialTodos(): Promise<Todo[]> {
@@ -36,7 +36,7 @@ export function createTodo(draft: TodoDraft): Todo {
     task: draft.task.trim(),
     description: draft.description.trim(),
     done: false,
-    priority: Number(draft.priority) as Priority,
+    priority: draft.priority as Priority,
     due_date: draft.due_date || undefined,
     created_at: new Date().toISOString(),
   };

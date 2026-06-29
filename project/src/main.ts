@@ -198,9 +198,9 @@ function renderForm(): string {
         <label for="priority">Priorytet</label>
         <select id="priority" name="priority" aria-describedby="priority-error">
           <option value="">Wybierz priorytet</option>
-          <option value="1" ${draft.priority === 1 ? 'selected' : ''}>Niski</option>
-          <option value="2" ${draft.priority === 2 ? 'selected' : ''}>Średni</option>
-          <option value="3" ${draft.priority === 3 ? 'selected' : ''}>Wysoki</option>
+          <option value="1" ${draft.priority === "low" ? 'selected' : ''}>Niski</option>
+          <option value="2" ${draft.priority === "medium" ? 'selected' : ''}>Średni</option>
+          <option value="3" ${draft.priority === "high" ? 'selected' : ''}>Wysoki</option>
         </select>
         <p id="priority-error" class="error-message">${formErrors.priority ?? ''}</p>
       </div>
@@ -282,6 +282,7 @@ function renderTodo(todo: Todo): string {
       <div>
         <h3 data-testid="todo-title">${escapeHtml(todo.task)}</h3>
         <p>${escapeHtml(todo.description)}</p>
+        <strong><p>Przypisano do: ${todo.owner ? escapeHtml(todo.owner.name) : 'Brak'}</p></strong>
         <div class="todo-meta">
           <span class="badge" data-testid="todo-priority">Priorytet: ${getPriorityLabel(todo.priority)}</span>
           <span class="badge" data-testid="todo-done">${todo.done ? 'Ukończone' : 'Aktywne'}</span>
@@ -538,8 +539,8 @@ function saveAndRender(nextMessage: string): void {
 }
 
 function formValueToPriority(value: FormDataEntryValue | null): '' | Priority {
-  if (value === '1' || value === '2' || value === '3') {
-    return Number(value) as Priority;
+  if (value === 'low' || value === 'medium' || value === 'high') {
+    return value as Priority;
   }
 
   return '';
