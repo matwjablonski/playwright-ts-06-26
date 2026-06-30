@@ -38,6 +38,26 @@ test.describe('add new todo', () => {
 
         const list = page.getByTestId('todo-list');
         await expect(list.getByText('Nowe zadanie')).toBeVisible();
+    });
+
+    test('check page with empty todos list', async ({ page }) => {
+        await page.addInitScript(() => {
+            sessionStorage.setItem('todolab.authenticated', 'true');
+        });
+
+        page.route('**/data.json', route => {
+            //route.abort('failed'); // Simulate a network error
+            route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify([]),
+            });
+        })
+
+        const todosPage = new TodosPage(page);
+        await todosPage.goto();
+
+        expect(await todosPage.getTodoCount()).toBe(0);
     })
 })
 
