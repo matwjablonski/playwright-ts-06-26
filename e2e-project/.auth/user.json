@@ -1,4 +1,14 @@
 {
   "cookies": [],
-  "origins": []
+  "origins": [
+    {
+      "origin": "http://localhost:5173",
+      "localStorage": [
+        {
+          "name": "todolab.todos",
+          "value": "[{\"id\":1,\"task\":\"Przygotować scenariusz testowy\",\"description\":\"Opisać kroki dla dodawania zadania i oczekiwany rezultat.\",\"done\":false,\"priority\":\"high\",\"due_date\":\"2030-02-14\",\"created_at\":\"2026-01-05T09:00:00.000Z\",\"owner\":{\"name\":\"Jan Kowalski\",\"role\":\"admin\"}},{\"id\":2,\"task\":\"Zweryfikować walidację formularza\",\"description\":\"Sprawdzić wymagany tytuł, priorytet i datę z przeszłości.\",\"done\":false,\"priority\":\"medium\",\"due_date\":\"2030-03-01\",\"created_at\":\"2026-01-06T11:30:00.000Z\"},{\"id\":3,\"task\":\"Zaktualizować dokumentację testów\",\"description\":\"Dodać opis komend npm i konwencji data-testid.\",\"done\":true,\"priority\":\"low\",\"due_date\":\"2026-01-20\",\"created_at\":\"2026-01-07T15:00:00.000Z\"},{\"id\":4,\"task\":\"Sprawdzić raport z regresji\",\"description\":\"Zadanie celowo przeterminowane dla testów filtrowania.\",\"done\":false,\"priority\":\"high\",\"due_date\":\"2024-12-01\",\"created_at\":\"2026-01-08T08:15:00.000Z\",\"owner\":{\"name\":\"Anna Nowak\",\"role\":\"user\"}}]"
+        }
+      ]
+    }
+  ]
 }

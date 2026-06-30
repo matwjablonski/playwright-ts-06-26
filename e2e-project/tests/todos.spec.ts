@@ -3,11 +3,13 @@ import { LoginPage } from './pages/LoginPage.page';
 import { TodosPage } from './pages/TodosPage.page';
 
 test('go to todos page and verify that on list we have at least 3 items', async ({ page }) => {
-   await page.goto('http://localhost:5173/#/login');
+    await test.step('login to the application', async () => {
+        await page.goto('http://localhost:5173/#/login');
 
-    const loginPage = new LoginPage(page);
-    await loginPage.login('admin123');
-
+        const loginPage = new LoginPage(page);
+        await loginPage.login('admin123');
+    })
+   
     await expect(page).toHaveURL(/#\/todos$/);
     await expect(page.getByRole('heading', { name: 'Lista zadań' })).toBeVisible();
 
