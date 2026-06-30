@@ -17,24 +17,28 @@ test('go to todos page and verify that on list we have at least 3 items', async 
     expect(await page.locator('[data-testid^="todo-card-"]').count()).toBeGreaterThanOrEqual(3);
 })
 
-test('add new todo and verify that it is added to the list', async ({ page }) => {
-    await page.goto('http://localhost:5173/#/login');
+test.describe('add new todo', () => {
+    test.use({ storageState: '.auth/user.json' });
 
-    const loginPage = new LoginPage(page);
-    await loginPage.login('admin123');
+    test('add new todo and verify that it is added to the list', async ({ page }) => {
+        await page.addInitScript(() => {
+            sessionStorage.setItem('todolab.authenticated', 'true');
+        });
 
-    const todosPage = new TodosPage(page);
+        const todosPage = new TodosPage(page);
+        await todosPage.goto();
 
-    const heading = page.getByRole('heading', { name: 'Dodaj zadanie' });
-    expect(heading).toBeVisible();
+        const heading = page.getByRole('heading', { name: 'Dodaj zadanie' });
+        expect(heading).toBeVisible();
 
-    await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
-    expect(page.getByText('Tytuł jest wymagany.')).toBeVisible();
+        await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
+        expect(page.getByText('Tytuł jest wymagany.')).toBeVisible();
 
-    await todosPage.addTodo('Nowe zadanie', 'Opis nowego zadania', '3');
+        await todosPage.addTodo('Nowe zadanie', 'Opis nowego zadania', '3');
 
-    const list = page.getByTestId('todo-list');
-    await expect(list.getByText('Nowe zadanie')).toBeVisible();
+        const list = page.getByTestId('todo-list');
+        await expect(list.getByText('Nowe zadanie')).toBeVisible();
+    })
 })
 
 test('verify screenshot of login page', async ({ page }) => {
