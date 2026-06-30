@@ -25,6 +25,17 @@ test('add new todo and verify that it is added to the list', async ({ page }) =>
     expect(heading).toBeVisible();
 
     await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
+    expect(page.getByText('Tytuł jest wymagany.')).toBeVisible();
 
-    // await expect(page.locator('[data-testid^="todo-card-"]')).toHaveCount(4);
+    await page.getByLabel('Tytuł').fill('Nowe zadanie');
+    await page.getByLabel('Opis').fill('Opis nowego zadania');
+    await page
+        .getByTestId('todo-form')
+        .getByLabel('Priorytet')
+        .selectOption({ label: 'Wysoki' });
+
+    await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
+
+    const list = page.getByTestId('todo-list');
+    await expect(list.getByText('Nowe zadanie')).toBeVisible();
 })
