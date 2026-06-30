@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from './pages/LoginPage.page';
+import { TodosPage } from './pages/TodosPage.page';
 
 test('go to todos page and verify that on list we have at least 3 items', async ({ page }) => {
    await page.goto('http://localhost:5173/#/login');
@@ -22,21 +23,23 @@ test('add new todo and verify that it is added to the list', async ({ page }) =>
     const loginPage = new LoginPage(page);
     await loginPage.login('admin123');
 
+    const todosPage = new TodosPage(page);
+
     const heading = page.getByRole('heading', { name: 'Dodaj zadanie' });
     expect(heading).toBeVisible();
 
     await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
     expect(page.getByText('Tytuł jest wymagany.')).toBeVisible();
 
-    await page.getByLabel('Tytuł').fill('Nowe zadanie');
-    await page.getByLabel('Opis').fill('Opis nowego zadania');
-    await page
-        .getByTestId('todo-form')
-        .getByLabel('Priorytet')
-        .selectOption({ label: 'Wysoki' });
-
-    await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
+    await todosPage.addTodo('Nowe zadanie', 'Opis nowego zadania', '3');
 
     const list = page.getByTestId('todo-list');
     await expect(list.getByText('Nowe zadanie')).toBeVisible();
+})
+
+test('verify screenshot of login page', async ({ page }) => {
+    await page.goto('http://localhost:5173/#/login');
+
+    expect(await page.screenshot()).toMatchSnapshot('login-page.png', { maxDiffPixelRatio: 0.01 });
+
 })

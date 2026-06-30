@@ -81,6 +81,7 @@ function renderLogin(): void {
         <h1 class="page-title">TodoLab</h1>
         <p class="muted">Zaloguj się, aby przejść do aplikacji testowej.</p>
         <div class="field">
+          <div style="width: 400px; height: 200px; background: red;">dasda</div>
           <label for="password">Hasło</label>
           <input id="password" name="password" type="password" autocomplete="current-password" required />
         </div>
