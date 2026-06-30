@@ -40,6 +40,9 @@ test('add new todo and verify that it is added to the list', async ({ page }) =>
 test('verify screenshot of login page', async ({ page }) => {
     await page.goto('http://localhost:5173/#/login');
 
-    expect(await page.screenshot()).toMatchSnapshot('login-page.png', { maxDiffPixelRatio: 0.01 });
+    expect(await page.screenshot({
+        fullPage: true,
+    })).toMatchSnapshot('login-page.png', { maxDiffPixelRatio: 0.01 });
 
+    expect(page).toHaveScreenshot('login-page.png', { maxDiffPixelRatio: 0.01 })
 })
