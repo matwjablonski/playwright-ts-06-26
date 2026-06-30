@@ -1,4 +1,5 @@
 import { getTodosKey, readJson, writeJson } from './storage';
+import { isTodo } from './todo-factory';
 import type { FilterPriority, FilterStatus, Priority, Todo, TodoDraft } from './types';
 
 const priorityLabels: Record<Priority, string> = {
@@ -31,6 +32,12 @@ export function saveTodos(todos: Todo[]): void {
 }
 
 export function createTodo(draft: TodoDraft): Todo {
+  const isValid = isTodo(draft);
+
+  if (!isValid) {
+    throw new Error('Invalid todo draft');
+  }
+
   return {
     id: Date.now(),
     task: draft.task.trim(),

@@ -11,6 +11,7 @@ import {
   validateDraft,
 } from './todos-service';
 import type { FilterPriority, FilterStatus, Priority, Todo, TodoDraft } from './types';
+import { createTodoFactory } from './todo-factory';
 
 const app = document.querySelector<HTMLDivElement>('#app');
 
@@ -330,12 +331,12 @@ function bindTodoForm(): void {
     event.preventDefault();
     const data = new FormData(form);
 
-    draft = {
+    draft = createTodoFactory({
       task: String(data.get('task') ?? ''),
       description: String(data.get('description') ?? ''),
-      priority: formValueToPriority(data.get('priority')),
+      priority: formValueToPriority(data.get('priority')) || 'low',
       due_date: String(data.get('due_date') ?? ''),
-    };
+    });
 
     formErrors = validateDraft(draft);
 
