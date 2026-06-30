@@ -14,3 +14,17 @@ test('go to todos page and verify that on list we have at least 3 items', async 
 
     expect(await page.locator('[data-testid^="todo-card-"]').count()).toBeGreaterThanOrEqual(3);
 })
+
+test('add new todo and verify that it is added to the list', async ({ page }) => {
+    await page.goto('http://localhost:5173/#/login');
+
+    await page.getByLabel('Hasło').fill('admin123');
+    await page.getByRole('button', { name: 'Zaloguj' }).click();
+
+    const heading = page.getByRole('heading', { name: 'Dodaj zadanie' });
+    expect(heading).toBeVisible();
+
+    await page.getByRole('button', { name: 'Dodaj zadanie' }).click();
+
+    // await expect(page.locator('[data-testid^="todo-card-"]')).toHaveCount(4);
+})

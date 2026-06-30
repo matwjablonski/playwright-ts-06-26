@@ -331,6 +331,8 @@ function bindTodoForm(): void {
     event.preventDefault();
     const data = new FormData(form);
 
+    console.log(data.get('priority'))
+
     draft = createTodoFactory({
       task: String(data.get('task') ?? ''),
       description: String(data.get('description') ?? ''),
@@ -540,8 +542,9 @@ function saveAndRender(nextMessage: string): void {
 }
 
 function formValueToPriority(value: FormDataEntryValue | null): '' | Priority {
-  if (value === 'low' || value === 'medium' || value === 'high') {
-    return value as Priority;
+  if (value === '1' || value === '2' || value === '3') {
+
+    return value === '1' ? 'low' : value === '2' ? 'medium' : 'high' as Priority;
   }
 
   return '';
