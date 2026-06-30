@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from './pages/LoginPage.page';
 
 test('go to todos page and verify that on list we have at least 3 items', async ({ page }) => {
    await page.goto('http://localhost:5173/#/login');
 
-    await page.getByLabel('Hasło').fill('admin123');
-    await page.getByRole('button', { name: 'Zaloguj' }).click();
+    const loginPage = new LoginPage(page);
+    await loginPage.login('admin123');
 
     await expect(page).toHaveURL(/#\/todos$/);
     await expect(page.getByRole('heading', { name: 'Lista zadań' })).toBeVisible();
@@ -18,8 +19,8 @@ test('go to todos page and verify that on list we have at least 3 items', async 
 test('add new todo and verify that it is added to the list', async ({ page }) => {
     await page.goto('http://localhost:5173/#/login');
 
-    await page.getByLabel('Hasło').fill('admin123');
-    await page.getByRole('button', { name: 'Zaloguj' }).click();
+    const loginPage = new LoginPage(page);
+    await loginPage.login('admin123');
 
     const heading = page.getByRole('heading', { name: 'Dodaj zadanie' });
     expect(heading).toBeVisible();
